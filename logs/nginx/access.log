@@ -58,3 +58,7 @@
 192.168.65.1 - - [15/Mar/2025:16:08:17 +0000] "POST /api/posts/create HTTP/1.1" 200 201 "-" "PostmanRuntime/7.43.2"
 192.168.65.1 - - [15/Mar/2025:16:08:26 +0000] "POST /api/posts/create HTTP/1.1" 201 50 "-" "PostmanRuntime/7.43.2"
 192.168.65.1 - - [15/Mar/2025:16:10:46 +0000] "POST /api/posts/create HTTP/1.1" 200 179 "-" "PostmanRuntime/7.43.2"
+192.168.65.1 - - [15/Mar/2025:16:32:49 +0000] "DELETE /api/posts/delete/10 HTTP/1.1" 404 6616 "-" "PostmanRuntime/7.43.2"
+192.168.65.1 - - [15/Mar/2025:16:35:13 +0000] "GET /api/posts HTTP/1.1" 200 459 "-" "PostmanRuntime/7.43.2"
+192.168.65.1 - - [15/Mar/2025:16:35:23 +0000] "DELETE /api/posts/delete/3 HTTP/1.1" 200 50 "-" "PostmanRuntime/7.43.2"
+192.168.65.1 - - [15/Mar/2025:16:35:37 +0000] "DELETE /api/posts/delete/3 HTTP/1.1" 404 6616 "-" "PostmanRuntime/7.43.2"

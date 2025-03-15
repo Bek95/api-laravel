@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\PostUpdateRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -23,18 +24,39 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
-        Post::create($request->validated());
+        try {
+            $post = Post::create($request->validated());
 
-        return response()->json(
-            ['message' => 'Post created successfully'],
-            201
-        );
+            return response()->json([
+                'message' => 'Post created successfully',
+                'data' => $post
+            ],
+                201,
+            );
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Post cannot be created ' . $e->getMessage()], 400);
+        }
     }
 
-    public function update(PostRequest $request, Post $post)
+    public function update(PostUpdateRequest $request, Post $post)
     {
-        $post->update($request->validated());
+        try {
+            $post->update($request->validated());
 
-        return response()->json(['message' => 'Post updated successfully'], 200);
+            return response()->json(['message' => 'Post updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Post cannot be updated ' . $e->getMessage()], 400);
+        }
+    }
+
+    public function destroy(Post $post)
+    {
+        try {
+            $post->delete();
+
+            return response()->json(['message' => 'Post deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Post cannot be deleted ' . $e->getMessage()], 400);
+        }
     }
 }
