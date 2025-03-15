@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Controllers\Api\Usercontroller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PostController;
 
-// lien qui permettra aux Clients
 
+
+Route::post('/register', [Usercontroller::class, 'register']);
+Route::post('/login', [Usercontroller::class, 'login']);
+
+// lien qui permettra aux Clients
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{post}', [PostController::class, 'show']);
 Route::post('/posts/create', [PostController::class, 'store']);
