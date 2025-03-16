@@ -28,15 +28,14 @@ class Usercontroller extends Controller
     public function login(UserLoginRequest $request)
     {
         $request->validated();
-
         if (auth()->attempt($request->only('email', 'password'))) {
             $user = auth()->user();
-            $token = $user->createToken('my-app-token')->accessToken;
+            $token = $user->createToken(env('APP_API_KEY'))->plainTextToken;
 
             return response()->json([
                 'message' => 'User connected successfully',
                 'user' => $user,
-                'token' => $token['token'],
+                'token' => $token,
             ], 200);
 
         } else {
