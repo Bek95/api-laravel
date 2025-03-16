@@ -36,7 +36,10 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         try {
-            $post = Post::create($request->validated());
+            $data = $request->validated();
+            $userId = auth()->user()->id;
+            $data['user_id'] = $userId;
+            $post = Post::create($data);
 
             return response()->json([
                 'message' => 'Post created successfully',
@@ -53,9 +56,13 @@ class PostController extends Controller
     {
         try {
             if ($post) {
-                $post->update($request->validated());
+                if ($post->user_id === auth()->user()->id) {
+                    $post->update($request->validated());
 
-                return response()->json(['message' => 'Post updated successfully'], 200);
+                    return response()->json(['message' => 'Post updated successfully'], 200);
+                } else {
+                    return response()->json(['message' => 'not authorized'], 403);
+                }
             } else {
                 return response()->json(['message' => 'Post not found'], 404);
             }
@@ -68,9 +75,18 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         try {
-            $post->delete();
+            if ($post) {
+                if ($post->user_id === auth()->user()->id) {
+                    $post->delete();
 
-            return response()->json(['message' => 'Post deleted successfully'], 200);
+                    return response()->json(['message' => 'Post deleted successfully'], 200);
+                } else {
+                    return response()->json(['message' => 'not authorized'], 403);
+                }
+            } else {
+                return response()->json(['message' => 'Post not found'], 404);
+            }
+
         } catch (\Exception $e) {
             return response()->json(['message' => 'Post cannot be deleted ' . $e->getMessage()], 400);
         }
